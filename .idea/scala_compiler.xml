@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ScalaCompilerConfiguration">
+    <profile name="Gradle 1" modules="taller1.app.main,taller1.app.test">
+      <option name="deprecationWarnings" value="true" />
+      <option name="uncheckedWarnings" value="true" />
+      <parameters>
+        <parameter value="-J-Xmx1g" />
+        <parameter value="-J-Xss8m" />
+      </parameters>
+    </profile>
+  </component>
+</project>
