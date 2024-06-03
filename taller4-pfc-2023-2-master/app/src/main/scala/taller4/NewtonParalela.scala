@@ -45,3 +45,5 @@ object NewtonParalela {
     newton(x0, 0)
   }
 }
+
+

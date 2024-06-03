@@ -1,5 +1,6 @@
 package taller4
 
+// Definición del trait y las clases para expresiones algebraicas
 sealed trait Expr
 case class Numero(value: Double) extends Expr
 case class Atomo(symbol: String) extends Expr
@@ -10,7 +11,9 @@ case class Div(left: Expr, right: Expr) extends Expr
 case class Expo(base: Expr, exp: Expr) extends Expr
 case class Logaritmo(base: Expr, arg: Expr) extends Expr
 
+// Objeto Newton para cálculos numéricos
 object Newton {
+  // Función para convertir una expresión a una cadena de caracteres
   def mostrar(expr: Expr): String = expr match {
     case Numero(value) => value.toString
     case Atomo(symbol) => symbol
@@ -22,6 +25,7 @@ object Newton {
     case Logaritmo(base, arg) => s"log_${mostrar(base)}(${mostrar(arg)})"
   }
 
+  // Función para calcular la derivada de una expresión con respecto a un átomo dado
   def derivar(expr: Expr, atomo: Atomo): Expr = expr match {
     case Numero(_) => Numero(0)
     case `atomo` => Numero(1)
@@ -34,6 +38,7 @@ object Newton {
     case _ => throw new UnsupportedOperationException(s"Cannot derive expression: $expr")
   }
 
+  // Función para evaluar una expresión dada un valor para un átomo
   def evaluar(expr: Expr, atomo: Atomo, value: Double): Double = expr match {
     case Numero(v) => v
     case `atomo` => value
@@ -45,6 +50,7 @@ object Newton {
     case Logaritmo(base, arg) => math.log(evaluar(arg, atomo, value)) / math.log(evaluar(base, atomo, value))
   }
 
+  // Función para limpiar una expresión algebraica
   def limpiar(expr: Expr): Expr = expr match {
     case Suma(Numero(0), right) => limpiar(right)
     case Suma(left, Numero(0)) => limpiar(left)
@@ -63,6 +69,7 @@ object Newton {
     case other => other
   }
 
+  // Función para encontrar la raíz de una función usando el método de Newton
   def raizNewton(f: Expr, a: Atomo, x0: Double, ba: Double => Boolean, maxIter: Int = 100, tol: Double = 1e-7): Option[Double] = {
     def newton(x: Double, iter: Int): Option[Double] = {
       if (iter >= maxIter) None
